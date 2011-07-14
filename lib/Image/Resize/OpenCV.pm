@@ -12,7 +12,7 @@ our @ISA = qw(Exporter);
 our @EXPORT_OK = qw( image_resize );
 our @EXPORT = qw();
 
-our $VERSION = '0.1';
+our $VERSION = '0.11';
 
 require XSLoader;
 XSLoader::load('Image::Resize::OpenCV', $VERSION);
@@ -83,7 +83,11 @@ Image::Resize::OpenCV - Simple image resizer using OpenCV
     my $image = new Image::Resize::OpenCV();
     my $image = new Image::Resize::OpenCV($filename);
 
-=head2 resize($width, $height, $params = undef) - Resize Image
+=head2 load($filename) - Load image file
+
+    $image -> load($filename);
+
+=head2 resize($width, $height, ...) - Resize Image
 
     $image -> resize(640, 480);
     $image -> resize(640, 480, KEEP_ASPECT => 1);

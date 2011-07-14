@@ -4,8 +4,11 @@
 
 #include "ppport.h"
 
+#include "libgen.h"
+
 #include "cv.h"
 #include "highgui.h"
+
 
 void *get_ptr(SV *self, char *param)
 {
@@ -24,10 +27,10 @@ void set_ptr(SV *self, char *param, void *ptr)
 
 char* get_file_extension(char *filename)
 {
-	char* ext;
-	ext = strrchr(filename, '.');
+	char *ext;
+	ext = strrchr(basename(filename), '.');
 
-	return ext+1;
+	return ext ? ext+1 : NULL;
 }
 
 MODULE = Image::Resize::OpenCV		PACKAGE = Image::Resize::OpenCV		
@@ -184,7 +187,8 @@ IV save(self, filename, compression = 25)
 		img = (IplImage *) get_ptr(self, "_img");
 		if (!img) croak("image not loaded!");
 
-		char * ext = get_file_extension(filename);
+		char *ext = get_file_extension(filename);
+		if (!ext) croak("File extension not defined");
 		
 		if (strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0)
 		{
